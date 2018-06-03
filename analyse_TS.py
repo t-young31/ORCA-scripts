@@ -29,11 +29,11 @@ with open(input_path + '/' + input_filename, 'r') as TS_output:
         if '*** OPTIMIZATION RUN DONE ***' in line:
             opt_done = True
 
-        if opt_done == True:
+        if opt_done:
             if line.startswith("VIBRATIONAL FREQUENCIES"):
                 vib_freq_section = True
 
-        if vib_freq_section == True:
+        if vib_freq_section:
                 if '***imaginary mode***' in line:
                     if imag_freq == 999.0:
                         imag_freq = line.split()[1]
@@ -47,7 +47,6 @@ with open(input_path + '/' + input_filename, 'r') as TS_output:
             print('TS search ended in an ERROR')
 
 
-
 if float(imag_freq) < -100:
     print('TS search was probably SUCCESSFUL and has an imaginary frequnecy of  ', imag_freq, 'cm-1')
     opt_done = False
@@ -58,11 +57,11 @@ if float(imag_freq) < -100:
             if '*** OPTIMIZATION RUN DONE ***' in line:
                 opt_done = True
 
-            if 'Electronic energy' in line and opt_done == True:
+            if 'Electronic energy' in line and opt_done:
                 print(line)
-            if 'Total Enthalpy' in line and opt_done == True:
+            if 'Total Enthalpy' in line and opt_done:
                 print(line)
-            if 'Final Gibbs free enthalpy' in line and opt_done == True:
+            if 'Final Gibbs free enthalpy' in line and opt_done:
                 print(line)
 
 else:
