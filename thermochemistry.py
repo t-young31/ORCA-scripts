@@ -1,29 +1,29 @@
 import readline, glob, os
 
+
 def complete(text, state):
     return (glob.glob(text+'*')+[None])[state]
+
 
 readline.set_completer_delims(' \t\n;')
 readline.parse_and_bind("tab: complete")
 readline.set_completer(complete)
 
+directory = input("Folder from which to extract themochemistry  ")
 
-
-dir = input("Folder from which to extract themochemistry  ")
-
-if dir.endswith('/'):
+if directory.endswith('/'):
     pass
 else:
-    dir = dir + '/'
+    directory = directory + '/'
 
 
-with open(dir + 'thermochem.csv', 'w') as extract_file:
+with open(directory + 'thermochem.csv', 'w') as extract_file:
     extract_file.write('Species,' + 'E,' + 'G,' + 'H' + '\n')
 
 
-for out_file in glob.glob(dir + "*.out"):
+for out_file in glob.glob(directory + "*.out"):
 
-    extract_file = open(dir + 'thermochem.csv', 'a')
+    extract_file = open(directory + 'thermochem.csv', 'a')
     extract_file.write(os.path.basename(out_file).replace('.out', '') + ',')
 
     '''
@@ -39,7 +39,6 @@ for out_file in glob.glob(dir + "*.out"):
     E = 0
     H = 0
     G = 0
-
 
     with open(out_file, 'r') as out_file_r:
 
@@ -60,18 +59,17 @@ for out_file in glob.glob(dir + "*.out"):
                 if '*** OPTIMIZATION RUN DONE ***' in line:
                     opt_done = True
 
-                if opt_done == True:
+                if opt_done:
                     if line.startswith("VIBRATIONAL FREQUENCIES"):
                         vib_freq_section = True
 
-                if vib_freq_section == True:
+                if vib_freq_section:
                         if '***imaginary mode***' in line and Opt == True:
                             print('imaginary freq in', out_file, 'species is not a true minimum')
 
                         if '***imaginary mode***' in line and OptTS == True:
                             imag_freq = line.split()[1]
                             print(os.path.basename(out_file).replace('.out', ''), ' imaginary frequnecy is  ', imag_freq)
-
 
                 if opt_done == True and 'Electronic energy' in line:
                     E = float(line.split()[-2])
