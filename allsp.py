@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Make single point calculations for all .out files
 """
