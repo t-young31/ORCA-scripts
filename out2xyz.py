@@ -12,7 +12,7 @@ def get_args():
 
 def get_xyzs(filename):
 
-    out_file_lines = [line for line in open(filename, 'r')]
+    out_file_lines = [line for line in open(filename, 'r', encoding="utf-8")]
     end_block, start_block = False, False
     xyz_lines = []
 
