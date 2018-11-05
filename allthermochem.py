@@ -25,7 +25,7 @@ def write_thermochem(filepaths):
     for out_file in filepaths:
 
         name = out_file.replace('.out', '')
-        print(name + ',', file=extract_file)
+        print(os.path.basename(name) + ',', end='', file=extract_file)
 
         vib_freq_section = False
         opt_done = False
@@ -60,11 +60,11 @@ def write_thermochem(filepaths):
 
                     if vib_freq_section:
                             if '***imaginary mode***' in line and opt:
-                                print('imaginary freq in', out_file, 'species is not a true minimum')
+                                print('imaginary freq in', os.path.basename(out_file), 'species is not a true minimum')
 
                             if '***imaginary mode***' in line and opt_ts:
                                 imag_freq = line.split()[1]
-                                print(name, ' imaginary frequnecy is  ', imag_freq)
+                                print(os.path.basename(name), ' imaginary frequnecy is  ', imag_freq)
 
                     if opt_done == True and 'Electronic energy' in line:
                         E = float(line.split()[-2])
