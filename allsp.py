@@ -11,7 +11,7 @@ def get_out_filepaths():
 
     for dirpath, dirnames, filenames in os.walk(os.getcwd()):
         for filename in [f for f in filenames if f.endswith(".out")]:
-            if not filename.startswith('.'):
+            if not filename.startswith('.') and '_sp' not in filename:
                 filepath_list.append(os.path.join(dirpath, filename))
 
     return filepath_list
