@@ -31,6 +31,6 @@ are set.
 
 Tool to extract E/H/G from all .out files in a folder and deposit them in a .csv.
 
-##out2xyz
+## out2xyz
 Tool to convert a .out file into a geometry. Will extract the last set of xyzs from the file.
 Useful for visualising the progress of geometry optimisations. 
