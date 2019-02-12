@@ -2,6 +2,7 @@
 import argparse
 import os
 import shutil
+from codecs import open
 
 
 def get_args():
@@ -34,7 +35,9 @@ def get_all_xyz_gbw_names(basename):
 
 
 def get_xyzs(xyz_filename):
-    return [line for line in open(xyz_filename, 'r', encoding="utf-8") if len(line.split()) == 4 and line.split()[-1][-1].isdigit()]
+    return [line for line in open(xyz_filename, 'r',
+                                  encoding="utf-8",
+                                  errors="ignore") if len(line.split()) == 4 and line.split()[-1][-1].isdigit()]
 
 
 def make_inp_file(filename):
