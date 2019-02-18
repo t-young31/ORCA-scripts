@@ -26,9 +26,9 @@ def get_e_h_s_g(out_filename):
                 e = float(line.split()[4])
             if 'Zero point energy' in line:
                 zpe = float(line.split()[4])
-            if 'Total thermal energy' in line:
+            if 'Total Enthalpy' in line:
                 h = float(line.split()[3])
-            if 'Final entropy term ' in line:
+            if 'Final entropy term' in line:
                 ts = float(line.split()[4])
             if 'G-E(el)' in line:
                 g_corr = float(line.split()[2])
