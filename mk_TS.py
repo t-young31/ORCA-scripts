@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import numpy as np
 import argparse
@@ -7,7 +8,7 @@ def get_args():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("filename", action='store', help='ORCA scan output filename (.out)')
-    parser.add_argument("-t", action='store', default=None, help='ORCA .inpu file to extract theory from')
+    parser.add_argument('-t', type=str, default=None, help='ORCA .input file to extract theory from')
 
     return parser.parse_args()
 
@@ -183,9 +184,9 @@ class TSGuess(object):
 
         return 0
 
-    def __init__(self, scan_out_file):
+    def __init__(self, out_file):
 
-        self.scan_out_file = scan_out_file
+        self.scan_out_file = out_file
         self.xyzs = self.get_xys()
         self.inp_filename = 'ts.inp'
 
