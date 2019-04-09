@@ -29,6 +29,9 @@ def get_rel_energies(out_filename):
                 if 'FINAL SINGLE POINT ENERGY' in line:
                     energies.append(float(line.split()[4]))
 
+        if len(energies) == 0:
+            exit("Couldn't find any energy evaluations")
+
         return Constants.ha_to_kcal_mol * (np.array(energies) - energies[0])
 
 
