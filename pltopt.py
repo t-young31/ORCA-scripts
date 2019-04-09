@@ -6,9 +6,7 @@ import os
 import numpy as np
 import argparse
 
-
-class Constants(object):
-    ha_to_kcal_mol = 627.5
+ha_to_kcal_mol = 627.5
 
 
 def get_args():
@@ -19,20 +17,22 @@ def get_args():
     return parser.parse_args()
 
 
-def get_rel_energies(out_filename):
+def get_rel_energies_and_last_de(out_filename):
 
-    energies = []
+    energies, last_de = [], 0.0
 
     if out_filename.endswith('.out'):
         with open(out_filename, 'r', encoding="utf-8") as out_file:
             for line in out_file:
                 if 'FINAL SINGLE POINT ENERGY' in line:
                     energies.append(float(line.split()[4]))
+                if 'Energy change' in line and len(line.split()) == 5:
+                    last_de = float(line.split()[2])
 
         if len(energies) == 0:
             exit("Couldn't find any energy evaluations")
 
-        return Constants.ha_to_kcal_mol * (np.array(energies) - energies[0])
+        return ha_to_kcal_mol * (np.array(energies) - energies[0]), ha_to_kcal_mol * last_de
 
 
 def plot_energies(energies):
@@ -59,5 +59,6 @@ def plot_energies(energies):
 if __name__ == '__main__':
 
     filename = get_args().filename
-    rel_energies = get_rel_energies(out_filename=filename)
+    rel_energies, last_delta_energy = get_rel_energies_and_last_de(out_filename=filename)
     plot_energies(rel_energies[::(1 if len(rel_energies) < 30 else 2 if len(rel_energies) < 60 else 3)])
+    print('Final ∆E =', np.round(last_delta_energy, 4), 'kcal / mol-1')
