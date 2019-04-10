@@ -32,7 +32,7 @@ def get_rel_energies_and_last_de(out_filename):
         if len(energies) == 0:
             exit("Couldn't find any energy evaluations")
 
-        return ha_to_kcal_mol * (np.array(energies) - energies[0]), ha_to_kcal_mol * last_de, energies[0]
+        return ha_to_kcal_mol * (np.array(energies) - energies[0]), ha_to_kcal_mol * last_de, energies[-1]
 
 
 def plot_energies(energies):
