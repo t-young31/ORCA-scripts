@@ -1,60 +1,46 @@
-import os
-import readline, glob
-def complete(text, state):
-    return (glob.glob(text+'*')+[None])[state]
+#!/usr/bin/env python3
+"""
+Convert an ORCA input file/files (.inp) into a standard .xyz file
+"""
+import argparse
 
-readline.set_completer_delims(' \t\n;')
-readline.parse_and_bind("tab: complete")
-readline.set_completer(complete)
 
-'''
------------------------------Input file path-----------------------------
-'''
+def get_args():
 
-raw_input = input("Input file:   ")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("filename", action='store', help='.inp file', nargs='+')
 
-input_filename = raw_input.split('/')[-1]
-input_path = '/'.join(raw_input.split('/')[0:-1])
+    return parser.parse_args()
 
-'''
------------------------------Pass the input file--------------------------
-'''
 
-xyzs = []
+def get_xyz_lines(inp_filename):
 
-with open(os.path.join(input_path, input_filename), 'r') as in_file:
-
-    xyz_start = False
-    while xyz_start == False:
-        in_file_line = in_file.readline()
-
-        if "*xyz" in in_file_line:
-            xyz_start = True
-            *xyz, charge, mult = in_file_line.split()
-
-    xyz_end = False
-    while xyz_end == False:
-        in_file_line = in_file.readline()
-
-        if "*" in in_file_line:
-            xyz_end = True
+    xyz_lines, xyz_section = [], False
+    for line in open(inp_filename, 'r').readlines():
+        if '*' in line and xyz_section:
             break
+        if xyz_section:
+            xyz_lines.append(line)
+        if '*' in line:
+            xyz_section = True
 
-        xyzs.append(in_file_line)
-
-n_atoms = len(xyzs)
-
-
-
-'''
------------------------------Write xyz file---------------------------------
-'''
+    return xyz_lines
 
 
-with open(os.path.join(input_path, input_filename.replace('.inp', '.xyz')), 'w') as out_file:
-    print(n_atoms,'\n', file=out_file)
-    for xyz_line in xyzs:
-        print(xyz_line,end='', file=out_file)
+def print_xyz_file(xyz_lines):
+
+    if len(xyz_lines) > 0:
+        with open(filename.replace('.inp', '.xyz'), 'w') as xyz_file:
+            print(len(xyz_lines), '\n', file=xyz_file)
+            [print(xyz_line, end='', file=xyz_file) for xyz_line in xyz_lines]
+
+    return 0
 
 
+if __name__ == '__main__':
 
+    args = get_args()
+    for filename in args.filename:
+        if filename.endswith('.inp'):
+            xyzs = get_xyz_lines(inp_filename=filename)
+            print_xyz_file(xyz_lines=xyzs)

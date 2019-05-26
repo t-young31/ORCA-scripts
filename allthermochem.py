@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Make single point calculations for all .out files
+Extract all the thermochemistry data for .out files in the current/subdirectories into a .csv named
+thermochem.csv
 """
 
 import os
@@ -27,14 +28,8 @@ def write_thermochem(filepaths):
         name = out_file.replace('.out', '')
         print(os.path.basename(name) + ',', end='', file=extract_file)
 
-        vib_freq_section = False
-        opt_done = False
-        opt_ts = False
-        opt = False
-        freq = False
-        E = 0
-        H = 0
-        G = 0
+        vib_freq_section, opt_done, opt_ts, opt, freq = False, False, False, False, False
+        E, H, G = 0.0, 0.0, 0.0
 
         with open(out_file, 'r') as out_file_r:
 
@@ -42,11 +37,11 @@ def write_thermochem(filepaths):
                 # Grab the keywords from the output file
                 if '1> !' in line:
                     for item in line.split():
-                        if item == 'Opt':
+                        if item.lower() == 'opt':
                             opt = True
-                        if item == 'OptTS':
+                        if item.lower() == 'opttS':
                             opt_ts = True
-                        if item == 'Freq':
+                        if item.lower() == 'freq':
                             freq = True
 
                 if freq:
@@ -77,7 +72,6 @@ def write_thermochem(filepaths):
 
 
 if __name__ == '__main__':
-
 
     filepaths = get_out_filepaths()
     write_thermochem(filepaths)

@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Convert a .out file into a .xyz
+"""
 import argparse
 
 

@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Analyse a transition state calculation to check wether it was sucessful
+"""
 import argparse
 
 
@@ -30,7 +33,8 @@ def analyse_TS(filename):
                         if imag_freq == 999.0:
                             imag_freq = line.split()[1]
                         else:
-                            print('Second imaginary mode found at', line.split()[1], 'TS is not true first order saddle point')
+                            print('Second imaginary mode found at', line.split()[1],
+                                  'TS is not true first order saddle point')
 
             if line.startswith('NORMAL MODES'):
                 vib_freq_section = False

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Make single point calculations for all .out files
+Make single point calculations for all .out files in the current directory/subdirectories
 """
 
 import os
@@ -11,7 +11,8 @@ def get_out_filepaths():
 
     for dirpath, dirnames, filenames in os.walk(os.getcwd()):
         for filename in [f for f in filenames if f.endswith(".out")]:
-            if not filename.startswith('.') and '_sp' not in filename:
+            # Skip filenames that are hidden, are already single points and not an SMD output file
+            if not filename.startswith('.') and '_sp' not in filename and not filename.endswith('.smd.out'):
                 filepath_list.append(os.path.join(dirpath, filename))
 
     return filepath_list
