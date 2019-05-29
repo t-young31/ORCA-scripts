@@ -124,7 +124,7 @@ class ScanFile(object):
             chg_mult_line = False
             for line in scan_out_file:
 
-                if '*xyz' in line:
+                if '*xyz' in line or "* xyz" in line:
                     chg_mult_line = True
 
                 if chg_mult_line:
