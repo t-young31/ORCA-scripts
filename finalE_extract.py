@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     print('Filename', 'Energy / Ha', sep=',', file=csv_file)
 
-    for filename in os.listdir(os.getcwd()):
+    for filename in sorted(os.listdir(os.getcwd())):
         if filename.endswith('.out') and not filename.endswith('.smd.out'):
             e, orca_failed, line_n = 0.0, True, 0
 
@@ -34,4 +34,4 @@ if __name__ == '__main__':
             if orca_failed:
                 print('ORCA failed for', filename)
             else:
-                print(filename, e, sep=',', file=csv_file)
+                print(filename.replace('.out', ''), e, sep=',', file=csv_file)
