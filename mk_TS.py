@@ -125,10 +125,10 @@ class ScanFile(object):
             for line in scan_out_file:
 
                 if '*xyz' in line:
-                    chg_mult_line = True
-
-                if chg_mult_line:
                     chg_mult = line.split()[3], line.split()[4]
+                    return chg_mult
+                if '* xyz' in line:
+                    chg_mult = line.split()[4], line.split()[5]
                     return chg_mult
 
     def __init__(self, filename):
