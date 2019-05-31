@@ -14,7 +14,7 @@ if __name__ == '__main__':
     print('Filename', 'Energy / Ha', sep=',', file=csv_file)
 
     for filename in sorted(os.listdir(os.getcwd())):
-        if filename.endswith('.out') and not filename.endswith('.smd.out'):
+        if filename.endswith('.out') and not filename.endswith('.smd.out') and not filename.startswith('.'):
             e, orca_failed, line_n = 0.0, True, 0
 
             # Use tail for fast access to the last electronic energy in the ORCA output file
