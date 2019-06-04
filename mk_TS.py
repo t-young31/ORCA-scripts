@@ -63,11 +63,12 @@ class ScanFile(object):
         max_energy = 0.0
         r_at_max_energy = 0.0
 
-        for i in range(self.n_points):
+        for i in range(1, self.n_points-1):
 
             if self.energies[i] > max_energy:
-                max_energy = self.energies[i]
-                r_at_max_energy = self.r_vals[i]
+                if self.energies[i-1] < self.energies[i] and self.energies[i+1] < self.energies[i]:
+                    max_energy = self.energies[i]
+                    r_at_max_energy = self.r_vals[i]
 
         return r_at_max_energy
 
@@ -151,9 +152,10 @@ class TSGuess(object):
         with open(self.scan_out_file.filename, 'r') as scan_file:
 
             scan_point_max_energy, xyz_block, opt_done = False, False, False
+            r_at_max_energy_8dp = '%1.8f' % scan_out_file.r_at_max_energy
 
             for line in scan_file:
-                if str(scan_out_file.r_at_max_energy) in line:
+                if r_at_max_energy_8dp in line:
                     scan_point_max_energy = True
                 if scan_point_max_energy and 'THE OPTIMIZATION HAS CONVERGED' in line:
                     opt_done = True
